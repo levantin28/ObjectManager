@@ -1,0 +1,311 @@
+<div *ngIf="showMainPage">
+    <button mat-raised-button style="height: 68px; margin-right:1%" (click)="showCreateGeneralObject($event)">
+        <mat-icon>add</mat-icon> ADD NEW
+    </button>
+    
+    <div>
+        <table mat-table [dataSource]="generalObjectDataSource" matSort>
+            <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.id}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="description">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.description}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="type">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.type}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <button (click)="showDetails($event, row)" mat-icon-button>
+                        <mat-icon>info</mat-icon>
+                    </button>
+                    <button (click)="showUpdateGeneralObject($event, row)" mat-icon-button>
+                        <mat-icon>update</mat-icon>
+                    </button>
+                    <button (click)="deleteGeneralObject($event, row)" mat-icon-button>
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumnsGeneralObjectDataSource"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumnsGeneralObjectDataSource;"></mat-row>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 50, 100]" [pageSize]="50" showFirstLastButtons></mat-paginator>
+    </div>
+    
+    <button mat-raised-button style="height: 68px; margin-right:1%" (click)="showCreateRelation($event)">
+        <mat-icon>add</mat-icon> ADD NEW
+    </button>
+    
+    <div>
+        <table mat-table [dataSource]="relationDataSource" matSort>
+            <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.id}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="parentObjectId">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Parent Object Id</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.parentObjectId}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="childObjectId">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Child Object Id</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.childObjectId}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <button (click)="showUpdateRelation($event, row)" mat-icon-button>
+                        <mat-icon>update</mat-icon>
+                    </button>
+                    <button (click)="deleteRelation($event, row)" mat-icon-button>
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumnsRelationDataSource"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumnsRelationDataSource;"></mat-row>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 50, 100]" [pageSize]="50" showFirstLastButtons></mat-paginator>
+    </div>
+</div>
+
+
+<div *ngIf="showCreateGeneralObjectScreen">
+    <form [formGroup]="createGeneralObjectForm" class="form-container">
+        <div class="row">
+            <div class="col">
+                <mat-form-field>
+                    <input formControlName="name" matInput placeholder="Name">
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field>
+                    <input formControlName="description" matInput placeholder="Description">
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field>
+                    <input formControlName="type" matInput placeholder="Type">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button mat-raised-button color="primary" (click)="createGeneralObject($event)">Save</button>
+            </div>
+            <div class="col">
+                <button mat-raised-button color="primary" (click)="backToMain()">Back</button>
+            </div>
+            <div class="col">
+                
+            </div>
+            <div class="col">
+                
+            </div>
+            <div class="col">
+                
+            </div>
+            <div class="col">
+
+            </div>
+            <div class="col">
+
+            </div>
+        </div>
+    </form>
+</div>
+
+<div *ngIf="showCreateRelationScreen">
+    <form [formGroup]="createRelationForm" class="form-container">
+        <div class="row">
+            <div class="col">
+                <mat-form-field>
+                    <input formControlName="parentObjectId" matInput placeholder="Parent Object Id">
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field>
+                    <input formControlName="childObjectId" matInput placeholder="Child Object Id">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button mat-raised-button color="primary" (click)="createRelation($event)">Save</button>
+            </div>
+            <div class="col">
+                <button mat-raised-button color="primary" (click)="backToMain()">Back</button>
+            </div>
+            <div class="col">
+                
+            </div>
+            <div class="col">
+                
+            </div>
+            <div class="col">
+                
+            </div>
+            <div class="col">
+
+            </div>
+            <div class="col">
+
+            </div>
+        </div>
+    </form>
+</div>
+
+<div *ngIf="showUpdateGeneralObjectScreen">
+    <form [formGroup]="updateGeneralObjectForm" class="form-container">
+        <div class="row">
+            <div class="col">
+                <mat-form-field>
+                    <input formControlName="id" matInput placeholder="Id" #disabled>
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field>
+                    <input formControlName="name" matInput placeholder="Name">
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field>
+                    <input formControlName="description" matInput placeholder="Description">
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field>
+                    <input formControlName="type" matInput placeholder="Type">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button mat-raised-button color="primary" (click)="createGeneralObject($event)">Save</button>
+            </div>
+            <div class="col">
+                <button mat-raised-button color="primary" (click)="backToMain()">Back</button>
+            </div>
+            <div class="col">
+                
+            </div>
+            <div class="col">
+                
+            </div>
+            <div class="col">
+                
+            </div>
+            <div class="col">
+
+            </div>
+            <div class="col">
+
+            </div>
+        </div>
+    </form>
+</div>
+
+<div *ngIf="showUpdateRelationScreen">
+    <form [formGroup]="updateRelationForm" class="form-container">
+        <div class="row">
+            <div class="col">
+                <mat-form-field>
+                    <input formControlName="id" matInput placeholder="Id" #disabled >
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field>
+                    <input formControlName="parentObjectId" matInput placeholder="Parent Object Id">
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field>
+                    <input formControlName="childObjectId" matInput placeholder="Child Object Id">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button mat-raised-button color="primary" (click)="createRelation($event)">Save</button>
+            </div>
+            <div class="col">
+                <button mat-raised-button color="primary" (click)="backToMain()">Back</button>
+            </div>
+            <div class="col">
+                
+            </div>
+            <div class="col">
+                
+            </div>
+            <div class="col">
+                
+            </div>
+            <div class="col">
+
+            </div>
+            <div class="col">
+
+            </div>
+        </div>
+    </form>
+</div>
+
+<div *ngIf="showDetailsScreen">
+    <div>
+        Parents General Objects
+        <table mat-table [dataSource]="parentsGeneralObjectDataSource" matSort>
+            <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.id}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="description">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.description}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="type">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.type}}</mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumnsSecondaryGeneralObjectDataSource"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumnsSecondaryGeneralObjectDataSource;"></mat-row>
+        </table>
+    </div>
+
+    <div>
+        Childs General Objects
+        <table mat-table [dataSource]="childsGeneralObjectDataSource" matSort>
+            <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.id}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="description">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.description}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="type">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.type}}</mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumnsSecondaryGeneralObjectDataSource"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumnsSecondaryGeneralObjectDataSource;"></mat-row>
+        </table>
+    </div>
+
+    <button mat-raised-button color="primary" (click)="backToMain()">Back</button>
+</div>
