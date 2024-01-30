@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "AQeEWLDrTKhIaShLIMblFzsyKSdsNbYgehvXqznR6MM=",
+  "Source": "OM.Services.ObjectManager.API",
+  "BasePath": "_content/OM.Services.ObjectManager.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
